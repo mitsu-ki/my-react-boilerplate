@@ -21,7 +21,7 @@ function main() {
 
   watch_js()
     .then(() => {
-      console.log('bs start!!!!');
+      console.log('[browser_sync] start');
       browser_sync();
     })
     .catch((err) => {
