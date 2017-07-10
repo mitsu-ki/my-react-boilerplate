@@ -1,19 +1,10 @@
 import * as _ from 'lodash';
+import Table from './models/Table';
 
-// TODO build relation function to decorator
-
-export const db = {
-  Question: [
-    { id: 1, sentence: 'Q1' },
-    { id: 2, sentence: 'Q2' },
-  ],
-  AnswerItem: [
-    { id: 1, question_id: 1, sentence: 'Q1-A1' },
-    { id: 2, question_id: 1, sentence: 'Q1-A2' },
-    { id: 3, question_id: 2, sentence: 'Q2-A1' },
-    { id: 4, question_id: 2, sentence: 'Q2-A2' },
-  ]
-};
+const TableData = Table;
+const BookStoreData = TableData.book_stores;
+const BooksData = TableData.books;
+const AuthorsData = TableData.authors;
 
 export class Relation<T> {
   private records: T[];
@@ -39,21 +30,21 @@ export class Relation<T> {
   }
 }
 
-export interface QuestionProps {
+export interface BookStoreProps {
   readonly id: number;
-  sentence: string;
+  name       : string;
 }
 
-export class Question implements QuestionProps {
-  static collection(): Relation<Question> {
-    return new Relation<Question>(
-      ..._.map<QuestionProps, Question>(db.Question, (props: QuestionProps) => {
-        return new Question(props);
+export class BookStore implements BookStoreProps {
+  static collection(): Relation<BookStore> {
+    return new Relation<BookStore>(
+      ..._.map<BookStoreProps, BookStore>(BookStoreData, (props: BookStoreProps) => {
+        return new BookStore(props);
       })
     );
   }
 
-  constructor(private props: QuestionProps) {
+  constructor(private props: BookStoreProps) {
     
   }
   
@@ -61,37 +52,37 @@ export class Question implements QuestionProps {
     return this.props.id;
   }
 
-  get sentence(): string {
-    return this.props.sentence;
+  get name(): string {
+    return this.props.name;
   }
 
-  set sentence(value: string) {
-    this.props.sentence = value;
+  set name(value: string) {
+    this.props.name = value;
   }
 
-  get answerItems() {
-    return AnswerItem.collection().where(answerItem => {
-      return answerItem.question_id === this.id;
-    });
-  }
+  // get answerItems() {
+  //   return AnswerItem.collection().where(answerItem => {
+  //     return answerItem.question_id === this.id;
+  //   });
+  // }
 }
 
-export interface AnswerItemProps {
+export interface BooksProps {
   readonly id: number;
-  readonly question_id: number;
-  sentence: string;
+  readonly author_id: number;
+  name: string;
 }
 
-export class AnswerItem implements AnswerItemProps {
-  static collection(): Relation<AnswerItem> {
-    return new Relation<AnswerItem>(
-      ..._.map<AnswerItemProps, AnswerItem>(db.AnswerItem, (props: AnswerItemProps) => {
-        return new AnswerItem(props);
+export class Books implements BooksProps {
+  static collection(): Relation<Books> {
+    return new Relation<Books>(
+      ..._.map<BooksProps, Books>(BooksData, (props: BooksProps) => {
+        return new Books(props);
       })
     );
   }
 
-  constructor(private props: AnswerItemProps) {
+  constructor(private props: BooksProps) {
     
   }
 
@@ -99,15 +90,38 @@ export class AnswerItem implements AnswerItemProps {
     return this.props.id;
   }
 
-  get question_id(): number {
-    return this.props.question_id;
+  get author_id(): number {
+    return this.props.author_id;
   }
 
-  get sentence(): string {
-    return this.props.sentence;
+  get name(): string {
+    return this.props.name;
+  }
+}
+
+export interface AuthorsProps {
+  readonly id: number;
+  name: string;
+}
+
+export class Authors implements AuthorsProps {
+  static collection(): Relation<Authors> {
+    return new Relation<Authors>(
+      ..._.map<AuthorsProps, Authors>(AuthorsData, (props: AuthorsProps) => {
+        return new Authors(props);
+      })
+    );
   }
 
-  set sentence(value: string) {
-    this.props.sentence = value;
+  constructor(private props: AuthorsProps) {
+    
+  }
+
+  get id(): number {
+    return this.props.id;
+  }
+
+  get name(): string {
+    return this.props.name;
   }
 }
