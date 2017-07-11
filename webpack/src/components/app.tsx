@@ -1,6 +1,8 @@
 import * as React from 'react';
-
+import Authors from '../models/Authors';
 import SubLoader from './sub-loader';
+
+import { List } from 'immutable';
 
 const global = Function('return this')();
 
@@ -33,6 +35,8 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   render(): JSX.Element {
+    let AuthorsData = new Authors().getAuthors();
+    console.log(AuthorsData);
     return (
       <div>
         <h1>Hello, World!!</h1>
