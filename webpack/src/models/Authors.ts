@@ -1,6 +1,4 @@
-import { Record, List } from 'immutable';
-
-const AuthorsRecord = Record({
+const Authors = {
   authors: [
     {
       id      : 1,
@@ -26,12 +24,6 @@ const AuthorsRecord = Record({
       ]
     }
   ]
-});
-
-class Authors extends AuthorsRecord {
-  getAuthors() {
-    return this.get('authors') || [];
-  }
-}
+};
 
 export default Authors;

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import Authors from '../models/Authors';
 import SubLoader from './sub-loader';
-
-import { List } from 'immutable';
+import ChildComponent from './child-component';
+import AppStore from '../stores/AppStore';
 
 const global = Function('return this')();
 
@@ -12,6 +11,7 @@ export interface AppProps {
 
 export interface AppState {
   Sub?: React.Component<any, any>;
+  data: object | null;
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -19,7 +19,18 @@ class App extends React.Component<AppProps, AppState> {
     super(props, state);
 
     this.state = {
-      Sub: undefined
+      Sub : undefined,
+      data: null
+    };
+  }
+
+  static getStores() {
+    return [AppStore];
+  }
+
+  static calculateState() {
+    return {
+      "data": AppStore.getState()
     };
   }
 
@@ -35,12 +46,12 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   render(): JSX.Element {
-    let AuthorsData = new Authors().getAuthors();
-    console.log(AuthorsData);
+    console.log(this.state.data);
     return (
       <div>
         <h1>Hello, World!!</h1>
-        {this._resolveSub()}
+         {this._resolveSub()} 
+        <ChildComponent data={this.state.data} />
       </div>
     );
   }
