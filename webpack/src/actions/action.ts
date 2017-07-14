@@ -17,7 +17,7 @@ class Actions {
     });
   }
 
-  public delete(id: number | string): void {
+  public del(id: number): void {
     Dispatcher.dispatch({
       actionType: Constants.ACTIONS.DESTROY,
       id        : id

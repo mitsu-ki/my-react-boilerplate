@@ -1,5 +1,6 @@
+import { Record } from 'immutable';
 
-const Books = {
+const BooksRecord = Record({
   books: [
     {
       id       : 1,
@@ -27,6 +28,12 @@ const Books = {
       author_id: 2
     }
   ]
-};
+});
+
+class Books extends BooksRecord {
+  getBooks() {
+    return this.get('books') || [];
+  }
+}
 
 export default Books;

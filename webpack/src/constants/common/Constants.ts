@@ -1,5 +1,8 @@
 export default {
   ACTIONS: {
-    BOOKS_DELETE: "ACTION:DELETE"
+    CREATE : "ACTION:CREATE",
+    DESTROY: "ACTION:DESTROY",
+    UPDATE : "ACTION:UPDATE",
+    READ   : "ACTION:READ"
   }
 };
