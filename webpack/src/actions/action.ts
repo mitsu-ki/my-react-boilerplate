@@ -2,11 +2,25 @@ import Dispatcher from '../dispatchers/common/Dispatcher';
 import Constants from '../constants/common/Constants';
 
 class Actions {
-  static delete(key: number | string): void {
-    console.log(key);
+  public create(data: object): void {
     Dispatcher.dispatch({
-      actionType: Constants.ACTIONS.BOOKS_DELETE,
-      id        : key
+      actionType: Constants.ACTIONS.CREATE,
+      data      : data
+    });
+  }
+
+  public update(id: number, data: object): void {
+    Dispatcher.dispatch({
+      actionType: Constants.ACTIONS.UPDATE,
+      id        : id,
+      data      : data
+    });
+  }
+
+  public delete(id: number | string): void {
+    Dispatcher.dispatch({
+      actionType: Constants.ACTIONS.DESTROY,
+      id        : id
     });
   }
 }

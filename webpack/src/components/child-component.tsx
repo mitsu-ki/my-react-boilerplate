@@ -1,13 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import Actions from '../actions/action';
 
-interface Book {
-  id       : number;
-  name     : string;
-  author_id: number;
-}
-interface AppProps {
+export interface AppProps {
   data: any;
 }
 
@@ -19,28 +13,24 @@ class ChildComponent extends React.Component<AppProps, {}> {
         <ul>
           {this._resolveBooks(this.props.data.get("books"))}
         </ul>
-        <button onClick={this._deleteHdl.bind(this)}>削除</button>
       </div>
     );
   }
 
   _resolveBooks(data: any) {
-    return _.map(data, (val: Book, i) => {
+    return _.map(data, (val, i) => {
       return this._resolvedBooks(val, i);
     })
   }
 
-  _resolvedBooks(val: Book, i: number) {
+  _resolvedBooks(val, i: number) {
+    console.log(val);
     return (
       <li key={i}>
         Book name: {val.name}
       </li>
     );
   }
-
-  _deleteHdl() {
-    return Actions.delete.call(Actions, "books");
-  }
- }
+}
 
 export default ChildComponent;
