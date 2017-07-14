@@ -2,8 +2,6 @@ import * as React from 'react';
 import Authors from '../models/Authors';
 import SubLoader from './sub-loader';
 
-import { List } from 'immutable';
-
 const global = Function('return this')();
 
 export interface AppProps {
