@@ -1,5 +1,5 @@
-import Dispatcher from '../dispatchers/common/Dispatcher';
-import Constants from '../constants/common/Constants';
+import Dispatcher from '../dispatchers/common/dispatcher';
+import Constants from '../constants/common/constants';
 
 class Actions {
   public create(data: object): void {
@@ -9,10 +9,9 @@ class Actions {
     });
   }
 
-  public update(id: number, data: object): void {
+  public update(data: object): void {
     Dispatcher.dispatch({
       actionType: Constants.ACTIONS.UPDATE,
-      id        : id,
       data      : data
     });
   }
