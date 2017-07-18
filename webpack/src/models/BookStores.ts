@@ -1,41 +1,21 @@
-import { Record } from 'immutable';
+interface IBookStore {
+  readonly id      : number;
+  name    : string;
+  books_id: number[];
+}
 
-const BookStoresRecord = Record({
+export interface IBookStores {
+  book_stores: IBookStore[]
+}
+
+const BookStoresData: IBookStores = {
   book_stores: [
     {
       id      : 1,
-      name    : "渋谷店",
-      books_id: [
-        1,
-        2,
-        3,
-        4,
-        5
-      ]
-    },
-    {
-      id       : 2,
-      name     : "新宿店",
-      books_id: [
-        1,
-        2
-      ]
-    },
-    {
-      id       : 3,
-      name     : "池袋店",
-      books_id: [
-        1,
-        5
-      ]
+      name    : "initial store name",
+      books_id: []
     }
   ]
-});
+};
 
-class BookStores extends BookStoresRecord {
-  getBookStores() {
-    return this.get('book_stores') || [];
-  }
-}
-
-export default BookStores();
+export default BookStoresData;
