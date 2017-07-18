@@ -1,54 +1,69 @@
 import * as React from 'react';
-import Authors from '../models/Authors';
-import SubLoader from './sub-loader';
+import * as _ from 'lodash';
 
-const global = Function('return this')();
+import Form from './Form';
+
+import AppConstant from '../constants/index/app-constants';
+import AppStore from '../stores/index/app-store';
+import BooksData, {IBook} from '../models/Books';
 
 export interface AppProps {
-  
+  preState: {};
 }
 
 export interface AppState {
-  Sub?: React.Component<any, any>;
+  books  : IBook[];
+  addnew?: boolean;
 }
 
 class App extends React.Component<AppProps, AppState> {
+  state: AppState;
+
   constructor(props: AppProps, state: AppState) {
     super(props, state);
 
     this.state = {
-      Sub: undefined
+      books: BooksData.books
     };
+    AppStore.appAddListener(AppConstant.EVENTS.CHANGED, () => {
+      this.setState({
+        books: BooksData.books
+      });
+    })
   }
 
-  load() {
-    const script: HTMLScriptElement = document.createElement('script');
-    script.onload = () => {
-      this.setState({
-        Sub: global.Sub
-      });
-    };
-    script.src = '/debug/sub.js';
-    document.body.appendChild(script);
+  shouldComponentUpdate({}, newState: AppState): boolean {
+    return newState.addnew !== this.state.addnew || newState.books !== this.state.books;
+
   }
 
   render(): JSX.Element {
-    let AuthorsData = new Authors().getAuthors();
-    console.log(AuthorsData);
+    console.log(this.state.books);
     return (
       <div>
         <h1>Hello, World!!</h1>
-        {this._resolveSub()}
+        <p>my favorite books</p>
+        <ul>
+          {this.resolveContents()}
+        </ul>
+        <hr/>
+        <Form />
       </div>
     );
   }
 
-  _resolveSub() {
-    if(global.Sub) {
-      return (<global.Sub message="Sub World"/>);
-    } else {
-      return (<SubLoader load={this.load.bind(this)}/>);
-    }
+  private resolveContents(): JSX.Element[] {
+    return _.map(this.state.books, (item, i) => {
+      return this.resolvedContents(item, i);
+    });
+  }
+
+  private resolvedContents(item: IBook, i: number) {
+    return (
+      <li key={i}>
+        {item.name}
+      </li>
+    )
   }
 }
 
