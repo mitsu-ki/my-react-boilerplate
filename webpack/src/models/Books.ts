@@ -1,39 +1,21 @@
-import { Record } from 'immutable';
+export interface IBook {
+  id       : number;
+  name     : string;
+  author_id: number;
+}
 
-const BooksRecord = Record({
+export interface IBooks {
+  books: IBook[];
+}
+
+const BooksData: IBooks = {
   books: [
     {
       id       : 1,
-      name     : "海辺のカフカ",
+      name     : "initial book name",
       author_id: 1
-    },
-    {
-      id       : 2,
-      name     : "限りなく透明に近いブルー",
-      author_id: 2
-    },
-    {
-      id       : 3,
-      name     : "ノルウェイの森",
-      author_id: 1
-    },
-    {
-      id       : 4,
-      name     : "流星ワゴン",
-      author_id: 3
-    },
-    {
-      id       : 5,
-      name     : "半島を出よ",
-      author_id: 2
     }
   ]
-});
+};
 
-class Books extends BooksRecord {
-  getBooks() {
-    return this.get('books') || [];
-  }
-}
-
-export default Books;
+export default BooksData;
