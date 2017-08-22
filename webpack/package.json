@@ -40,6 +40,7 @@
     "@types/superagent": "^2.0.36",
     "aphrodite": "^1.2.1",
     "bluebird": "^3.5.0",
+    "jbuilder": "0.0.4",
     "lodash": "^4.17.4",
     "object-assign": "^4.1.1",
     "react": "^15.5.4",
