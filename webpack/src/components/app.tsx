@@ -50,6 +50,8 @@ class App extends React.Component<AppProps, AppState> {
   // }
 
   render(): JSX.Element {
+
+    // model => TODO: relationを有効活用する
     let data = {
       id   : 1,
       name : "my name",
@@ -73,24 +75,54 @@ class App extends React.Component<AppProps, AppState> {
       }
     ];
 
+    // build
     let jbuilder = new Jbuilder();
     jbuilder.encode((json: Jbuilder) => {
       json.set("foo", array);
       json.set("all_data", data);
       json.set("specific_data", data, "name", "email");
-      json.set("children", () => {
-        console.log('child');
-        console.log();
-
-        
-        json.array(arrayObj, () => {
-          console.log('grand child');
-          // json.set("rank", )
+      json.set("array", () => {
+        json.array(arrayObj, (obj: object) => {
+          // console.log(obj);          
+          json.set("rank", obj, "rank");
+        });
+      });
+      json.set("child", () => {
+        json.child(() => {
+          json.set("child_key", data, "name");
         });
       });
     });
 
     console.log(jbuilder.render());
+
+    // 次の形になる
+    // {
+    //    "foo":[1,2,3],
+    //    "all_data": {
+    //      "id":1,
+    //      "name":"my name",
+    //      "email":"test@test.com"
+    //    },
+    //    "specific_data": {
+    //      "name":"my name",
+    //      "email":"test@test.com"
+    //    },
+    //    "array": [
+    //      {
+    //        "rank":{"rank":1}
+    //      },
+    //      {
+    //        "rank":{"rank":2}
+    //      }
+    //    ],
+    //    "child": [
+    //      {
+    //        "child_key": "my name"
+    //      }
+    //    ]
+    // }
+    
 
     return (
       <div>
