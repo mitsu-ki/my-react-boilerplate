@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as assign from 'object-assign';
-import * as _ from 'lodash';
+// import * as _ from 'lodash';
 import AppStore from '../stores/sample/app-store';
 import AppConstant from '../constants/sample/app-constants';
 import AppAction from '../actions/sample/app-action';
@@ -76,8 +76,7 @@ class App extends React.Component<AppProps, AppState> {
     ];
 
     // build
-    let jbuilder = new Jbuilder();
-    jbuilder.encode((json: Jbuilder) => {
+    Jbuilder.encode((json) => {
       json.set("foo", array);
       json.set("all_data", data);
       json.set("specific_data", data, "name", "email");
@@ -92,11 +91,21 @@ class App extends React.Component<AppProps, AppState> {
           json.set("child_key", data, "name");
         });
       });
+
+      json.set("more_child", () => {
+        json.child(() => {
+          json.set("more_child_key1", () => {
+            json.child(() => {
+              json.set("more_child_end", data, "name");
+            });
+          });
+        });
+      });
     });
 
-    console.log(jbuilder.render());
+    console.log(Jbuilder.render());
 
-    // 次の形になる
+    // 次の形になるべき
     // {
     //    "foo":[1,2,3],
     //    "all_data": {
@@ -141,17 +150,17 @@ class App extends React.Component<AppProps, AppState> {
     AppAction.addBook.call(AppAction);
   }
 
-  resolveContents() {
-    return _.map(this.state.books, (item, i) => {
-      console.log(item);
+  // resolveContents() {
+  //   return _.map(this.state.books, (item, i) => {
+  //     console.log(item);
       
-      return (
-        <div key={i}>
-          {item.name}
-        </div>
-      );
-    });
-  }
+  //     return (
+  //       <div key={i}>
+  //         {item.name}
+  //       </div>
+  //     );
+  //   });
+  // }
 
   // _resolveSub() {
   //   if(global.Sub) {

@@ -3,11 +3,11 @@ import * as _ from 'lodash';
 class Jbuilder {
   private data: object;
   private isArray: boolean;
-  private parentKey: string;
+  private nestKey: string[];
   constructor() {
     this.data = this.data || {};
     this.isArray = false;
-    this.parentKey = "";
+    this.nestKey = [];
   }
 
   public encode(fn: Function) {
@@ -16,12 +16,14 @@ class Jbuilder {
 
   public set(key: string, val: string | any[] | object | Function, ...keys: string[]) {
     if(typeof val === "function") {
-      this.parentKey = key;
+      this.nestKey.push(key);
       _.assign(this.data, {[key]: []});
       return val();
     }
 
     if(this.isArray) {
+      console.log(this.nestKey);
+      
       console.log("array type script");
     } else {
       // keyが複数設定されていた場合はイテレートするため条件分岐
@@ -58,11 +60,30 @@ class Jbuilder {
     return fn();
   }
 
-  public extract() {}
+  public extract(obj: object, ...attributes: string[]) {
+    if(_.isObject(obj)) {
+      this.extractHashValues(obj, attributes);
+    } else {
+      this.extractMethodValues(obj, attributes);
+    }
+  }
 
   public render() {
     return JSON.stringify(this.data);
   }
+
+  private extractHashValues(obj, attributes) {
+    return _.each(attributes, (key) => {
+      return this.set(key, obj[key]);
+    });
+  }
+
+  private extractMethodValues(obj, attributes) {
+    // attributes.each{ |key| _set_value key, obj.public_send(key) }
+    return _.each(attributes, (key) => {
+      return this.set(key, obj[key]);
+    });
+  }
 };
 
-export default Jbuilder;
+export default new Jbuilder();
