@@ -96,7 +96,7 @@ class App extends React.Component<AppProps, AppState> {
         json.child(() => {
           json.set("more_child_key1", () => {
             json.child(() => {
-              json.set("more_child_end", data, "name");
+              json.set("more_child_end", data, "name", "email");
             });
           });
         });
