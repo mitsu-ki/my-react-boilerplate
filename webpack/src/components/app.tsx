@@ -82,7 +82,6 @@ class App extends React.Component<AppProps, AppState> {
       json.set("specific_data", data, "name", "email");
       json.set("array", () => {
         json.array(arrayObj, (obj: object) => {
-          // console.log(obj);          
           json.set("rank", obj, "rank");
         });
       });
@@ -119,10 +118,10 @@ class App extends React.Component<AppProps, AppState> {
     //    },
     //    "array": [
     //      {
-    //        "rank":{"rank":1}
+    //        "rank":1
     //      },
     //      {
-    //        "rank":{"rank":2}
+    //        "rank":2
     //      }
     //    ],
     //    "child": [
