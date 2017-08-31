@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
-import * as assign from 'object-assign';
+
+function noop(): void {}
 
 class Jbuilder {
   private data: object;
@@ -7,6 +8,7 @@ class Jbuilder {
   private isChild: boolean;
   private isLastArray: boolean;
   private nestKey: string[];
+  private updateData: object;
   constructor() {
     this.data = this.data || {};
     this.initialize();
@@ -18,8 +20,9 @@ class Jbuilder {
   }
 
   public set(key: string, val: string | any[] | object | Function, ...keys: string[]) {
-    console.log("isLastArray: " + this.isLastArray);
+    // console.log("isLastArray: " + this.isLastArray);
     if (this.isArray) {
+      noop();
       // this.isLastArray ? null * this.nestKey.push(key);
     } else {
       this.nestKey.push(key);
@@ -30,9 +33,7 @@ class Jbuilder {
     let updateObj = {};
 
     if(keys.length === 0) {
-      updateObj = {
-        [key]: val
-      };
+      updateObj = { [key]: val };
     } else {
       let attributes = {};
       
@@ -43,8 +44,9 @@ class Jbuilder {
       updateObj = _.set({}, this.nestKey, this.isArray ? [attributes] : attributes);
     }
 
-    console.log(updateObj);
-    console.log(this.data);
+    _.merge(this.updateData, updateObj);
+    // console.log(updateObj);
+    console.log(this.updateData);
 
     _.assign(this.data, updateObj);
 
@@ -75,9 +77,22 @@ class Jbuilder {
   }
 
   private initialize() {
+    console.log("init");
     this.isArray = false;
     this.isChild = false;
     this.isLastArray = true;
+  }
+
+  private setValue(key: string, value) {
+    if(_.isNull(this.data)) throw new Error("");
+    if(_.isArray(this.data)) throw new Error("");
+    if(this.isBlank) this.data = {};
+    this.data[key] = value;
+    // raise NullError.build(key) if @attributes.nil?
+    // raise ArrayError.build(key) if ::Array === @attributes
+    // return if @ignore_nil && value.nil? or _blank?(value)
+    // @attributes = {} if _blank?
+    // @attributes[_key(key)] = value
   }
 };
 

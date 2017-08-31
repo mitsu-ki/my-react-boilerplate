@@ -91,15 +91,16 @@ class App extends React.Component<AppProps, AppState> {
         });
       });
 
-      json.set("more_child", () => {
-        json.child(() => {
-          json.set("more_child_key1", () => {
-            json.child(() => {
-              json.set("more_child_end", data, "name", "email");
-            });
-          });
-        });
-      });
+      // json.set("more_child", () => { 
+      //   json.child(() => {
+      //     json.set("more_child_key1", () => {
+      //       json.child(() => {
+      //         json.set("more_child_end", data, "name", "email");
+      //         json.set("more_child_end2", data);
+      //       });
+      //     });
+      //   });
+      // });
     });
 
     console.log(Jbuilder.render());
