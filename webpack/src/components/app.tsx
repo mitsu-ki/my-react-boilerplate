@@ -50,7 +50,6 @@ class App extends React.Component<AppProps, AppState> {
   // }
 
   render(): JSX.Element {
-
     // model => TODO: relationを有効活用する
     let data = {
       id   : 1,
@@ -76,34 +75,41 @@ class App extends React.Component<AppProps, AppState> {
     ];
 
     // build
-    Jbuilder.encode((json) => {
-      json.set("foo", array);
-      json.set("all_data", data);
-      json.set("specific_data", data, "name", "email");
-      json.set("array", () => {
-        json.array(arrayObj, (obj: object) => {
-          json.set("rank", obj, "rank");
-        });
-      });
-      json.set("child", () => {
-        json.child(() => {
-          json.set("child_key", data, "name");
-        });
-      });
-
-      // json.set("more_child", () => { 
-      //   json.child(() => {
-      //     json.set("more_child_key1", () => {
-      //       json.child(() => {
-      //         json.set("more_child_end", data, "name", "email");
-      //         json.set("more_child_end2", data);
-      //       });
-      //     });
-      //   });
-      // });
+    let data = Jbuilder.encode((json) => {
+      json.set('name', 'Mario');
     });
+    // Jbuilder.encode((json) => {
+    //   json.set("foo", array);
+    //   json.set("all_data", data);
+    //   json.set("specific_data", data, "name", "email");
+    //   // this is bad
+    //   json.set("array", () => {
+    //     json.array(arrayObj, (obj: object) => {
+    //       json.set("rank", obj, "rank");
+    //     });
+    //   });
+    //   json.array(arrayObj, (obj: object) => {
+    //     json.set("rank", obj, "rank");
+    //   });
+    //   json.set("child", () => {
+    //     json.child(() => {
+    //       json.set("child_key", data, "name");
+    //     });
+    //   });
 
-    console.log(Jbuilder.render());
+    //   // json.set("more_child", () => { 
+    //   //   json.child(() => {
+    //   //     json.set("more_child_key1", () => {
+    //   //       json.child(() => {
+    //   //         json.set("more_child_end", data, "name", "email");
+    //   //         json.set("more_child_end2", data);
+    //   //       });
+    //   //     });
+    //   //   });
+    //   // });
+    // });
+
+    console.log(data);
 
     // 次の形になるべき
     // {
